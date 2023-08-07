@@ -1,0 +1,22 @@
+.container {
+  width: 50rem;
+  margin: auto;
+  text-align: center;
+
+  .title {
+    font-size: 3rem;
+  }
+  
+  .search {
+    display: flex;
+    justify-content: space-between;
+  
+    .textField {
+      width: 77%;
+    }
+  
+    .addButton {
+      width: 10rem;
+    }
+  }
+}
