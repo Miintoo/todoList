@@ -40,6 +40,11 @@ export default function App() {
 
   const handleAddTodoList = async () => {
     const todoValue = contentRef.current?.value;
+    if (!todoValue) {
+      alert('내용을 입력해 주세요.');
+      contentRef.current?.focus();
+    }
+
     try {
       const { data } = await instance.post('/todos', {
         content: todoValue
