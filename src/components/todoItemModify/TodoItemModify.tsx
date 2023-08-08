@@ -8,7 +8,7 @@ import { TodoProps } from '../../container/TodoListContainer';
 import instance from '../../api/instance';
 
 export default function TodoItemModifyComponent({ item, onChangeMode, onHandleChangeContent }: TodoProps) {
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(item.isCompleted);
   const contentRef = useRef<HTMLInputElement>();
 
   const handleCheckboxChange = () => {
@@ -25,7 +25,7 @@ export default function TodoItemModifyComponent({ item, onChangeMode, onHandleCh
       });
 
       onChangeMode?.();
-      onHandleChangeContent?.(data.id, data.content);
+      onHandleChangeContent?.(data.id, data.content, data.isCompleted);
     } catch (error) {
       console.log(error);
     }

@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { TodoProps } from '../../container/TodoListContainer';
 
 export default function TodoItemComponent({ item, onDeleteTodoList, onChangeMode }: TodoProps) {
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(item.isCompleted);
   const handleDeleteTodoItem = async () => {
     const isDeleted = confirm('할 일을 삭제하시겠습니까? \n삭제한 할 일은 복구할 수 없습니다.');
     if (isDeleted) {

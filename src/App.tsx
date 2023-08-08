@@ -80,10 +80,10 @@ export default function App() {
     setTodoList(newTodoList);
   };
 
-  const handleChangeContent = (id: number, content: string) => {
+  const handleChangeContent = (id: number, content: string, checked: boolean) => {
     const newTodoList = todoList.map((item) => {
       if (item.id === id) {
-        return { ...item, content };
+        return { ...item, content, isCompleted: checked };
       }
       return item;
     });
