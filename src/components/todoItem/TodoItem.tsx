@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import styles from './todoItem.module.scss';
 import { TodoItem } from '../../App';
 import instance from '../../api/instance';
+import { useState } from 'react';
 
 type TodoProps = {
   item: TodoItem;
@@ -11,6 +12,7 @@ type TodoProps = {
 };
 
 export default function TodoItemComponent({ item, onDeleteTodoList }: TodoProps) {
+  const [checked, setChecked] = useState(false);
   const handleDeleteTodoItem = async () => {
     const isDeleted = confirm('할 일을 삭제하시겠습니까? \n삭제한 할 일은 복구할 수 없습니다.');
     if (isDeleted) {
@@ -23,10 +25,20 @@ export default function TodoItemComponent({ item, onDeleteTodoList }: TodoProps)
     }
   };
 
+  const handleCheckboxChange = () => {
+    setChecked(!checked);
+  };
+
   return (
     <article className={styles.container}>
-      <Checkbox />
-      <Typography className={styles.content}>{item.content}</Typography>
+      <Checkbox checked={checked} onChange={handleCheckboxChange} />
+      <Typography
+        component="span"
+        sx={{ textDecoration: checked ? 'line-through' : 'none' }}
+        className={styles.content}
+      >
+        {item.content}
+      </Typography>
       <Button className={styles.changeButton} variant="outlined">
         수정
       </Button>
