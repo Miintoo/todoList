@@ -80,6 +80,16 @@ export default function App() {
     setTodoList(newTodoList);
   };
 
+  const handleChangeContent = (id: number, content: string) => {
+    const newTodoList = todoList.map((item) => {
+      if (item.id === id) {
+        return { ...item, content };
+      }
+      return item;
+    });
+    setTodoList(newTodoList);
+  };
+
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>ToDoList</h1>
@@ -99,7 +109,14 @@ export default function App() {
         <section className={styles.todoList}>
           {todoList.length !== 0 ? (
             todoList.map((item) => {
-              return <TodoListContainer key={item.id} item={item} onDeleteTodoList={handleDeleteTodoList} />;
+              return (
+                <TodoListContainer
+                  key={item.id}
+                  item={item}
+                  onDeleteTodoList={handleDeleteTodoList}
+                  onHandleChangeContent={handleChangeContent}
+                />
+              );
             })
           ) : (
             <p className={styles.emptyList}>등록된 [할 일]이 없습니다.</p>

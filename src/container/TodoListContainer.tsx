@@ -7,9 +7,10 @@ export type TodoProps = {
   item: TodoItem;
   onDeleteTodoList?: (id: number) => void;
   onChangeMode?: () => void;
+  onHandleChangeContent?: (id: number, content: string) => void;
 };
 
-export default function TodoListContainer({ item, onDeleteTodoList }: TodoProps) {
+export default function TodoListContainer({ item, onDeleteTodoList, onHandleChangeContent }: TodoProps) {
   const [modifyMode, setModifyMode] = useState<boolean>(true);
 
   const handleChangeMode = () => {
@@ -17,7 +18,12 @@ export default function TodoListContainer({ item, onDeleteTodoList }: TodoProps)
   };
 
   return modifyMode === false ? (
-    <TodoItemModifyComponent item={item} onDeleteTodoList={onDeleteTodoList} onChangeMode={handleChangeMode} />
+    <TodoItemModifyComponent
+      item={item}
+      onDeleteTodoList={onDeleteTodoList}
+      onChangeMode={handleChangeMode}
+      onHandleChangeContent={onHandleChangeContent}
+    />
   ) : (
     <TodoItemComponent item={item} onDeleteTodoList={onDeleteTodoList} onChangeMode={handleChangeMode} />
   );
