@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-top: 0.4rem;
+  padding: 0.3rem 0.7rem 0.3rem 0;
+
+  border: 0.15rem solid #dee2e6;
+
+  .content {
+    width: 36rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.textField {
+  width: 74%;
+  height: 2.8rem;
+}
