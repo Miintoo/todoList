@@ -73,9 +73,13 @@ export default function App() {
           </Button>
         </section>
         <section className={styles.todoList}>
-          {todoList.map((item) => {
-            return <TodoItemComponent item={item} onDeleteTodoList={handleDeleteTodoList} />;
-          })}
+          {todoList.length !== 0 ? (
+            todoList.map((item) => {
+              return <TodoItemComponent item={item} onDeleteTodoList={handleDeleteTodoList} />;
+            })
+          ) : (
+            <p className={styles.emptyList}>등록된 [할 일]이 없습니다.</p>
+          )}
         </section>
       </main>
     </div>

@@ -6,19 +6,24 @@
   .title {
     font-size: 3rem;
   }
-  
+
   .search {
     display: flex;
     justify-content: space-between;
-  
+
     margin-bottom: 1.2rem;
 
     .textField {
       width: 77%;
     }
-  
+
     .addButton {
       width: 10rem;
     }
+  }
+
+  .emptyList {
+    font-size: 1.6rem;
+    opacity: 0.5;
   }
 }
