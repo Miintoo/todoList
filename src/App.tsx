@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import Button from '@mui/material/Button';
 import { OutlinedInput } from '@mui/material';
 import styles from './app.module.scss';
-import TodoItem from './components/todoItem/TodoItem';
+import TodoItemComponent from './components/todoItem/TodoItem';
 import instance from './api/instance';
 
 export type TodoItem = {
@@ -51,6 +51,11 @@ export default function App() {
     }
   };
 
+  const handleDeleteTodoList = (id: number) => {
+    const newTodoList = todoList.filter((item) => item.id !== id);
+    setTodoList(newTodoList);
+  };
+
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>ToDoList</h1>
@@ -68,9 +73,9 @@ export default function App() {
           </Button>
         </section>
         <section className={styles.todoList}>
-          {todoList.map((item) => (
-            <TodoItem todoItem={item} />
-          ))}
+          {todoList.map((item) => {
+            return <TodoItemComponent item={item} onDeleteTodoList={handleDeleteTodoList} />;
+          })}
         </section>
       </main>
     </div>
