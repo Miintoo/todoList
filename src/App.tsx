@@ -28,6 +28,22 @@ export default function App() {
   const getTodoList = async () => {
     try {
       const { data } = await instance.get('/todos?offset=0&limit=50');
+      data.value.sort((a: TodoItem, b: TodoItem) => {
+        const todoA = new Date(a.createdDateTime);
+        const todoB = new Date(b.createdDateTime);
+        if (todoA.getDate() > todoB.getDate()) {
+          return todoB.getDate() - todoA.getDate();
+        } else if (todoA.getDate() < todoB.getDate()) {
+          return todoB.getDate() - todoA.getDate();
+        } else {
+          if (todoA.getTime() > todoB.getTime()) {
+            return todoB.getTime() - todoA.getTime();
+          } else {
+            return todoA.getTime() - todoB.getTime();
+          }
+        }
+      });
+
       setTodoList(data.value);
     } catch (error) {
       console.log(error);
@@ -82,7 +98,7 @@ export default function App() {
         <section className={styles.todoList}>
           {todoList.length !== 0 ? (
             todoList.map((item) => {
-              return <TodoItemComponent item={item} onDeleteTodoList={handleDeleteTodoList} />;
+              return <TodoItemComponent key={item.id} item={item} onDeleteTodoList={handleDeleteTodoList} />;
             })
           ) : (
             <p className={styles.emptyList}>등록된 [할 일]이 없습니다.</p>
