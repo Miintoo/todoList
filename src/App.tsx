@@ -2,8 +2,9 @@ import { useEffect, useRef, useState } from 'react';
 import Button from '@mui/material/Button';
 import { OutlinedInput } from '@mui/material';
 import styles from './app.module.scss';
-import TodoItemComponent from './components/todoItem/TodoItem';
+// import TodoItemComponent from './components/todoItem/TodoItem';
 import instance from './api/instance';
+import TodoListContainer from './container/TodoListContainer';
 
 export type TodoItem = {
   id: number;
@@ -23,7 +24,7 @@ export type TodoList = {
 
 export default function App() {
   const [todoList, setTodoList] = useState<TodoItem[]>([]);
-  const contentRef = useRef();
+  const contentRef = useRef<HTMLInputElement>();
 
   const getTodoList = async () => {
     try {
@@ -98,7 +99,7 @@ export default function App() {
         <section className={styles.todoList}>
           {todoList.length !== 0 ? (
             todoList.map((item) => {
-              return <TodoItemComponent key={item.id} item={item} onDeleteTodoList={handleDeleteTodoList} />;
+              return <TodoListContainer key={item.id} item={item} onDeleteTodoList={handleDeleteTodoList} />;
             })
           ) : (
             <p className={styles.emptyList}>등록된 [할 일]이 없습니다.</p>
