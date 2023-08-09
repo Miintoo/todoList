@@ -7,7 +7,12 @@ import styles from './todoItemModify.module.scss';
 import { TodoProps } from '../../container/TodoListContainer';
 import instance from '../../api/instance';
 
-export default function TodoItemModifyComponent({ item, onChangeMode, onHandleChangeContent }: TodoProps) {
+export default function TodoItemModifyComponent({
+  item,
+  onChangeMode,
+  onDeleteTodoList,
+  onHandleChangeContent
+}: TodoProps) {
   const [checked, setChecked] = useState(item.isCompleted);
   const contentRef = useRef<HTMLInputElement>();
 
@@ -27,7 +32,8 @@ export default function TodoItemModifyComponent({ item, onChangeMode, onHandleCh
       onChangeMode?.();
       onHandleChangeContent?.(data.id, data.content, data.isCompleted);
     } catch (error) {
-      console.log(error);
+      alert('이미 삭제된 [할 일]입니다.');
+      onDeleteTodoList?.(item.id);
     }
   };
 
