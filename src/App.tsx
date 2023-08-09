@@ -2,42 +2,21 @@ import { useEffect, useRef, useState } from 'react';
 import Button from '@mui/material/Button';
 import { OutlinedInput } from '@mui/material';
 import styles from './app.module.scss';
-// import TodoItemComponent from './components/todoItem/TodoItem';
-import instance from './api/api';
 import TodoListContainer from './container/TodoListContainer';
 import { TodoItem } from './types/types';
+import { getTodoList, postTodoItem } from './api/api';
 
 export default function App() {
   const [todoList, setTodoList] = useState<TodoItem[]>([]);
   const contentRef = useRef<HTMLInputElement>();
 
-  const getTodoList = async () => {
-    try {
-      const { data } = await instance.get('/todos?offset=0&limit=50');
-      data.value.sort((a: TodoItem, b: TodoItem) => {
-        const todoA = new Date(a.createdDateTime);
-        const todoB = new Date(b.createdDateTime);
-        if (todoA.getDate() > todoB.getDate()) {
-          return todoB.getDate() - todoA.getDate();
-        } else if (todoA.getDate() < todoB.getDate()) {
-          return todoB.getDate() - todoA.getDate();
-        } else {
-          if (todoA.getTime() < todoB.getTime()) {
-            return todoB.getTime() - todoA.getTime();
-          } else {
-            return todoA.getTime() - todoB.getTime();
-          }
-        }
-      });
-
-      setTodoList(data.value);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
-    getTodoList();
+    const fetchDataAsync = async () => {
+      const result = await getTodoList();
+      setTodoList(result);
+    };
+
+    fetchDataAsync();
   }, []);
 
   const handleAddTodoList = async () => {
@@ -48,15 +27,8 @@ export default function App() {
       alert('내용을 입력해 주세요.');
       contentRef.current?.focus();
     } else {
-      try {
-        const { data } = await instance.post('/todos', {
-          content: todoValue
-        });
-
-        setTodoList([...todoList, data]);
-      } catch (error) {
-        console.log(error);
-      }
+      const result = await postTodoItem(todoValue);
+      setTodoList([...todoList, result]);
     }
   };
 
