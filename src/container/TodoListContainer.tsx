@@ -1,14 +1,7 @@
 import { useState } from 'react';
 import TodoItemComponent from './../components/todoItem/TodoItem';
 import TodoItemModifyComponent from './../components/todoItemModify/TodoItemModify';
-import { TodoItem } from '../App';
-
-export type TodoProps = {
-  item: TodoItem;
-  onDeleteTodoList?: (id: number) => void;
-  onChangeMode?: () => void;
-  onHandleChangeContent?: (id: number, content: string, checked: boolean) => void;
-};
+import { TodoProps } from '../types/types';
 
 export default function TodoListContainer({ item, onDeleteTodoList, onHandleChangeContent }: TodoProps) {
   const [modifyMode, setModifyMode] = useState<boolean>(true);
