@@ -3,24 +3,9 @@ import Button from '@mui/material/Button';
 import { OutlinedInput } from '@mui/material';
 import styles from './app.module.scss';
 // import TodoItemComponent from './components/todoItem/TodoItem';
-import instance from './api/instance';
+import instance from './api/api';
 import TodoListContainer from './container/TodoListContainer';
-
-export type TodoItem = {
-  id: number;
-  content: string;
-  isCompleted: boolean;
-  createdDateTime: string;
-  updatedDateTime: string;
-};
-
-export type TodoList = {
-  value: TodoItem[];
-  count: number;
-  offset: number;
-  limit: number;
-  total: number;
-};
+import { TodoItem } from './types/types';
 
 export default function App() {
   const [todoList, setTodoList] = useState<TodoItem[]>([]);
