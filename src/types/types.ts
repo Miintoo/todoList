@@ -16,8 +16,8 @@ export type TodoList = {
 
 export type TodoProps = {
   item: TodoItem;
-  checked: boolean;
-  contentRef: React.RefObject<HTMLInputElement>;
+  checked?: boolean;
+  contentRef?: React.RefObject<HTMLInputElement>;
   onDeleteTodoList?: (id: number) => void;
   onChangeMode?: () => void;
   onHandleChangeContent?: (id: number, content: string, checked: boolean) => void;
