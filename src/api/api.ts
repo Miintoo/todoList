@@ -61,3 +61,15 @@ export async function patchTodoItem({
     onDeleteTodoList?.(item.id);
   }
 }
+
+export async function deleteTodoItem({ item, onDeleteTodoList }: TodoProps) {
+  const isDeleted = confirm('할 일을 삭제하시겠습니까? \n삭제한 할 일은 복구할 수 없습니다.');
+  if (isDeleted) {
+    try {
+      await axios.delete(`${BASE_URL}/todos/${item.id}`);
+      onDeleteTodoList?.(item.id);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
