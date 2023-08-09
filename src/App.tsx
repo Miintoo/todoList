@@ -29,6 +29,9 @@ export default function App() {
     } else {
       const result = await postTodoItem(todoValue);
       setTodoList([...todoList, result]);
+      if (contentRef.current) {
+        contentRef.current.value = '';
+      }
     }
   };
 
