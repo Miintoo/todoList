@@ -37,7 +37,7 @@ export default function App() {
         } else if (todoA.getDate() < todoB.getDate()) {
           return todoB.getDate() - todoA.getDate();
         } else {
-          if (todoA.getTime() > todoB.getTime()) {
+          if (todoA.getTime() < todoB.getTime()) {
             return todoB.getTime() - todoA.getTime();
           } else {
             return todoA.getTime() - todoB.getTime();
