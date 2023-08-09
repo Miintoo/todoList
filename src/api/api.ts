@@ -47,9 +47,9 @@ export async function patchTodoItem({
   onHandleChangeContent,
   onDeleteTodoList
 }: TodoProps) {
-  const todoValue = contentRef.current?.value;
+  const todoValue = contentRef?.current?.value;
   try {
-    const { data } = await axios.patch(`/todos/${item.id}`, {
+    const { data } = await axios.patch(`${BASE_URL}/todos/${item.id}`, {
       content: todoValue,
       isCompleted: checked
     });
