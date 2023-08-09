@@ -7,7 +7,7 @@ export type TodoProps = {
   item: TodoItem;
   onDeleteTodoList?: (id: number) => void;
   onChangeMode?: () => void;
-  onHandleChangeContent?: (id: number, content: string) => void;
+  onHandleChangeContent?: (id: number, content: string, checked: boolean) => void;
 };
 
 export default function TodoListContainer({ item, onDeleteTodoList, onHandleChangeContent }: TodoProps) {
