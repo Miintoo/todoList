@@ -1,27 +1,73 @@
-# React + TypeScript + Vite
+## 프로젝트 소개
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+오늘 할 일을 기록하는 todoList 프로젝트 입니다.
 
-Currently, two official plugins are available:
+## 프로젝트 구조 소개
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+![Alt text](./src/assets/images/componentChart.png)
 
-## Expanding the ESLint configuration
+- main.tsx
+  React 프로젝트 entry 파일 입니다.
+- App.tsx
+  전체 todoList의 상태를 관리하는 컴포넌트 입니다.
+  모든 컴포넌트에 부모 역할을 하고 있고 내부적으로 사이트의 제목과 todoItem 입력 bar와 해당 로직이 구현되어 있습니다.
+- TodoListConatainer.tsx
+  TodoItem을 그대로 보여주거나 수정 모드로 나눠서 보여주기 위해서 존재하는 컨테이너 컴포넌트 입니다.
+  내부에 mode 여부에 따라 나눈 상태값이 있습니다.
+- TodoItem.tsx
+  TodoItem의 content를 보여주는 컴포넌트 입니다.
+  내부에서 api를 요청하는 로직은 따로 없고 내부적으로 checked state를 관리하고 있습니다.
+- TodoItemModify.tsx
+  수정 모드일때 보여지는 컴포넌트입니다.
+  내부적으로 수정이 완료 되었을때 patch 요청을 하는 로직을 호출합니다.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## 구현 방법에 대한 설명
 
-- Configure the top-level `parserOptions` property like this:
+### 할일 추가 로직 작성
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
+할일 추가시 요구 조건에 있는 두가지 예외 요구사항의 우선순위에 대해서 고민했습니다.
+사용자의 todoList가 10개가 존재하고 아무 입력도 하지 않았을때는 아무입력도 받지 않았다는 알림보다는
+더 이상 리스트를 추가할 수 없다는 알림을 보여줘 사용자가 다시 입력을 하는게 아닌 기존 리스트에 갯수에 문제가 있음을 알게 하는게 좋겠다 생각해서 최대 10개 등록 알림을 우선순위로 두기로 결정했습니다.
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+### todoList 목록 생성일 기준으로 오름차순 정렬
+
+생성일이 문자열로 되어있고 이를 바로 정렬은 안되기 때문에 Date 객체로 변환해 정렬해야겠다 생각을 했습니다.
+sort 함수 내부에 인자인 a, b를 받아 각각을 문자열에서 Date 객체로 변환해 서로 마이너스를 해 구현하려고 했지만 TypeScript에서는 Date 타입은
+사칙연산을 하게 되면 에러를 출력하는 이슈가 있었습니다.
+
+이를 해결하기 위해는 Date객체를 숫자 타입으로 변환해주는 내부 메서드중 getDate 메서드와 getTime 메서드를 활용해 정렬하는게 좋겠다 생각을 했습니다.
+처음엔 getDate를 이용해 생성일이 빠른순으로 정렬을 하고 만일 getDate 값이 같으면 그 때 getTime 값을 비교해 빠르게 생성한 리스트가 앞으로 가도록 정렬했습니다. getTime은 밀리초단위 까지 측정하기 때문에 할 일 추가를 사용자가 밀리초에 여러번 클릭할 수 없어 두 값이 같은 경우는 고려하지 않았습니다.
+
+### checkbox 클릭시 취소선 표시
+
+MUI를 사용해서 checkbox와 content를 표현했기 때문에 공식문서를 통해서 사용방법을 숙지해 간단히 구현했습니다.
+하나의 check 유무 상태값을 컴포넌트 내부에 만들어 checked 됐을때 줄이 보이도록 구현했습니다.
+
+### 수정 버튼 기능
+
+각 todoList 자식 요소들에서 수정 버튼을 클릭했을때 UI요소가 바뀌면서 저장을 하게 되면 서버에도 수정된 내용이 바뀌도록 해야했습니다.
+이를 위해서 두가지 UI를 다르게 보여야 하기 때문에 두가지 컴포넌트를 사용해서 조건에 따라서 사용자에게 다르게 보여지도록 구현하는게 좋겠다 생각을 했습니다.
+
+두가지 상태를 처음에 만들었던 TodoItem에서 만들기에는 하나의 컴포넌트에서 두가지 UI를 보여주는 부분이 너무 복잡하고 가독성에도 좋지 않다고 판단을 했습니다. 두가지 상태를 따로 컴포넌트로 만들고 이를 감싸는 부모 컨테이너 컴포넌트를 만들어 부모 컨테이너 컴포넌트에서 수정 유무상태를 관리해 컴포넌트가 렌더링 되도록 설정해서 코드를 작성했습니다.
+
+사용자의 입력에 따라 지속적으로 동기화하는 제어 컴포넌트로 작성하게 되면 렌더링이 지속적으로 발생해 성능에 좋지 않다고 생각을 해서 수정 input 값의 경우 비제어 컴포넌트인 useRef hook을 사용했습니다.
+
+수정 버튼 클릭시 해당 세션이 삭제된 경우 서버에서는 400 client 에러를 응답해주는걸 확인했습니다. 이 경우 try catch문을 이용해서 서버의 api 요청이 실패하는 경우 alert로 사용자에게 할 일이 이미 삭제되었음을 알려주고 해당 id를 이용해서 프론트에서 상태값을 변경해 없어진 리스트를 사용자 UI에 렌더링 하도록 구현했습니다.
+
+### API 로직과 컴포넌트 분리
+
+리액트 컴포넌트내부에 API 로직을 함께 작성하는건 코드의 가독성에도 좋지 않고 유지보수 측면에서도 좋지 않다는 생각이 들었습니다.
+따로 api 파일을 만들어 하나의 파일에서 서버로 통신하는 모든 로직을 정리했습니다.
+
+type alias 선언도 하나의 파일에서 타입을 관리하고 유지보수 하기 쉽도록 types.ts 파일을 따로 만들어 관리해줬습니다.
+
+## 개발 환경
+
+![Alt text](./src/assets/icons/stack.png)
+
+## 빌드 & 실행 방법
+
+1. yarn install
+2. yarn dev
+
+통해 프로젝트를 실행 해주세요.
