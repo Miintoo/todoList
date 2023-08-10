@@ -3,6 +3,7 @@ import { TodoProps, TodoItem } from '../types/types';
 
 const BASE_URL = 'http://localhost:8080/api/v1';
 
+// TodoItem 등록 로직
 export async function postTodoItem(content: string) {
   try {
     const { data } = await axios.post(`${BASE_URL}/todos`, {
@@ -14,6 +15,7 @@ export async function postTodoItem(content: string) {
   }
 }
 
+// TodoList 조회 로직 및 오름차순 정렬
 export async function getTodoList() {
   try {
     const { data } = await axios.get(`${BASE_URL}/todos?offset=0&limit=50`);
@@ -39,6 +41,7 @@ export async function getTodoList() {
   }
 }
 
+// TodoItem 수정 로직
 export async function patchTodoItem({
   item,
   contentRef,
@@ -62,6 +65,7 @@ export async function patchTodoItem({
   }
 }
 
+// TodoItem 삭제 로직
 export async function deleteTodoItem({ item, onDeleteTodoList }: TodoProps) {
   const isDeleted = confirm('할 일을 삭제하시겠습니까? \n삭제한 할 일은 복구할 수 없습니다.');
   if (isDeleted) {
