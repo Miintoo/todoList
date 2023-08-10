@@ -4,7 +4,7 @@ import { OutlinedInput } from '@mui/material';
 import Button from '@mui/material/Button';
 import styles from './todoItemModify.module.scss';
 import { TodoProps } from '../../types/types';
-import { patchTodoItem } from '../../api/api';
+import { useTodoAPI } from '../../hooks/useTodoAPI';
 
 export default function TodoItemModifyComponent({
   item,
@@ -13,6 +13,8 @@ export default function TodoItemModifyComponent({
   onHandleChangeContent
 }: TodoProps) {
   const [checked, setChecked] = useState(item.isCompleted);
+  const { patchTodoItem } = useTodoAPI();
+
   const contentRef = useRef<HTMLInputElement>(null);
 
   const handleCheckboxChange = () => {

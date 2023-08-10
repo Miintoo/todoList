@@ -4,10 +4,11 @@ import { OutlinedInput } from '@mui/material';
 import styles from './app.module.scss';
 import TodoListContainer from './container/TodoListContainer';
 import { TodoItem } from './types/types';
-import { getTodoList, postTodoItem } from './api/api';
+import { useTodoAPI } from './hooks/useTodoAPI';
 
 export default function App() {
   const [todoList, setTodoList] = useState<TodoItem[]>([]);
+  const { postTodoItem, getTodoList } = useTodoAPI();
   const contentRef = useRef<HTMLInputElement>();
 
   useEffect(() => {
