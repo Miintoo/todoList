@@ -2,6 +2,24 @@
 
 오늘 할 일을 기록하는 todoList 프로젝트 입니다.
 
+![Alt text](./src/assets/images/projectImg.png)
+
+## 개발 환경
+
+![Alt text](./src/assets/icons/stack.png)
+
+## git commit 컨벤션
+
+```
+[Feat] : 새로운 기능 추가
+[Fix] : 버그 수정
+[Docs] : 문서 추가 및 변경
+[Style] : 코드 포맷팅, 로직의 변화는 없이 띄어쓰기나 탭 문자 등의 사소한 변화
+[Refactor] : 리팩토링
+[Test] : 테스트 코드 수정 및 변경
+[Chore] : 그 외 사소한 변경
+```
+
 ## 프로젝트 구조 소개
 
 ![Alt text](./src/assets/images/componentChart.png)
@@ -60,10 +78,6 @@ MUI를 사용해서 checkbox와 content를 표현했기 때문에 공식문서�
 따로 api 파일을 만들어 하나의 파일에서 서버로 통신하는 모든 로직을 정리했습니다.
 
 type alias 선언도 하나의 파일에서 타입을 관리하고 유지보수 하기 쉽도록 types.ts 파일을 따로 만들어 관리해줬습니다.
-
-## 개발 환경
-
-![Alt text](./src/assets/icons/stack.png)
 
 ## 빌드 & 실행 방법
 
