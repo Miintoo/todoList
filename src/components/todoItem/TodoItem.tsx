@@ -1,10 +1,11 @@
+import { useState } from 'react';
+import { TodoProps } from '../../types/types';
+import { deleteTodoItem } from '../../api/api';
 import Checkbox from '@mui/material/Checkbox';
 import { Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import styles from './todoItem.module.scss';
-import { useState } from 'react';
-import { TodoProps } from '../../types/types';
-import { deleteTodoItem } from '../../api/api';
+
 export default function TodoItemComponent({ item, onDeleteTodoList, onChangeMode }: TodoProps) {
   const [checked, setChecked] = useState(item.isCompleted);
   const handleDeleteTodoItem = async () => {
