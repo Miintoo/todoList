@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { TodoProps, TodoItem } from '../types/types';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,7 +14,8 @@ export function useTodoAPI() {
       });
       return data;
     } catch (error) {
-      console.log(error);
+      alert('서버에 문제가 발생했습니다.');
+      navigate('/serverError');
     }
   }
 
@@ -61,8 +62,15 @@ export function useTodoAPI() {
       onChangeMode?.();
       onHandleChangeContent?.(data.id, data.content, data.isCompleted);
     } catch (error) {
-      alert('이미 삭제된 [할 일]입니다.');
-      onDeleteTodoList?.(item.id);
+      const axiosError = error as AxiosError;
+
+      if (axiosError.code === 'ERR_BAD_REQUEST') {
+        alert('이미 삭제된 [할 일]입니다.');
+        onDeleteTodoList?.(item.id);
+      } else {
+        alert('서버에 문제가 발생했습니다.');
+        navigate('/serverError');
+      }
     }
   }
 
@@ -73,7 +81,14 @@ export function useTodoAPI() {
         await axios.delete(`${BASE_URL}/todos/${item.id}`);
         onDeleteTodoList?.(item.id);
       } catch (error) {
-        console.log(error);
+        const axiosError = error as AxiosError;
+        if (axiosError.code === 'ERR_BAD_REQUEST') {
+          alert('이미 삭제된 [할 일]입니다.');
+          onDeleteTodoList?.(item.id);
+        } else {
+          alert('서버에 문제가 발생했습니다.');
+          navigate('/serverError');
+        }
       }
     }
   }
