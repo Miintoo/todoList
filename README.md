@@ -1,8 +1,8 @@
 ## 프로젝트 소개
 
-오늘 할 일을 기록하는 todoList 프로젝트 입니다.
+![Alt text](./src/assets/images/project.gif)
 
-![Alt text](./src/assets/images/projectImg.png)
+오늘 할 일을 기록하는 todoList 프로젝트 입니다.
 
 ## 개발 환경
 
